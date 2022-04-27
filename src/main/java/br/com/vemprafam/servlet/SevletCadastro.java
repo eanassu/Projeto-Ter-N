@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,9 +45,12 @@ public class SevletCadastro extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		Aluno aluno = new Aluno(ra,nome,renda,dataNascimento);
+		String email = request.getParameter("email");
+		Aluno aluno = new Aluno(ra,nome,renda,dataNascimento,email);
 		DaoAluno dao = new DaoAluno();
 		dao.inserirAluno(aluno);
+		RequestDispatcher rd = request.getRequestDispatcher("/aluno-adicionado.jsp");
+		rd.forward(request, response);
 	}
 
 	/**

@@ -33,5 +33,7 @@ for( Aluno aluno: alunos ) {
 } 
 %>
 </table>
+<br/>
+<a href="/Projeto">voltar</a>
 </body>
 </html>

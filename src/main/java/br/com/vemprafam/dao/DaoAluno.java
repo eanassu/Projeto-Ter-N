@@ -30,11 +30,11 @@ public class DaoAluno {
 		List<Aluno> result = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(
-					"SELECT ra,nome,renda,dataNascimento from Alunos");
+					"SELECT ra,nome,renda,dataNascimento,email from Alunos");
 			ResultSet rs = pstmt.executeQuery();
 			while( rs.next() ) {
 				result.add(new Aluno(rs.getInt(1),rs.getString(2),
-						rs.getDouble(3),rs.getDate(4)));
+						rs.getDouble(3),rs.getDate(4),rs.getString(5)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,12 +46,13 @@ public class DaoAluno {
 	public void inserirAluno(Aluno aluno) {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO alunos values(?,?,?,?)");
+					"INSERT INTO alunos values(?,?,?,?,?)");
 			pstmt.setInt(1, aluno.getRa());
 			pstmt.setString(2, aluno.getNome());
 			pstmt.setDouble(3, aluno.getRenda());
 			pstmt.setDate(4, 
 				new java.sql.Date(aluno.getDataNascimento().getTime()));
+			pstmt.setString(5, aluno.getEmail());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
