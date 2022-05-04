@@ -1,5 +1,6 @@
 package br.com.vemprafam.pojo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Aluno {
@@ -40,6 +41,9 @@ public class Aluno {
 	}
 	public Date getDataNascimento() {
 		return dataNascimento;
+	}
+	public String getDataNascimentoFormat() {
+		return new SimpleDateFormat("dd/MM/yyyy").format(dataNascimento);
 	}
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;

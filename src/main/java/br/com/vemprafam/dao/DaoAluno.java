@@ -60,4 +60,54 @@ public class DaoAluno {
 		}		
 	}
 	
+	public void excluirPeloRa( int ra ) {
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(
+					"DELETE FROM alunos WHERE ra=?");
+			pstmt.setInt(1, ra);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}		
+	}
+	
+	public Aluno buscarPeloRa( int ra ) {
+		Aluno result = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(
+					"SELECT ra,nome,renda,dataNascimento,email from Alunos "
+					+ "WHERE ra = ?");
+			pstmt.setInt(1, ra);
+			ResultSet rs = pstmt.executeQuery();
+			if ( rs.next() ) {
+				 result = new Aluno(rs.getInt(1),rs.getString(2),
+						rs.getDouble(3),rs.getDate(4),rs.getString(5));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return result;
+	}
+
+	public void alterarAluno(Aluno aluno) {
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(
+				"UPDATE alunos "
+				+ "SET nome=?, renda=?, dataNascimento=?, email=? "
+				+ "WHERE ra=?");
+			pstmt.setString(1, aluno.getNome());
+			pstmt.setDouble(2, aluno.getRenda());
+			pstmt.setDate(3, 
+				new java.sql.Date(aluno.getDataNascimento().getTime()));
+			pstmt.setString(4, aluno.getEmail());
+			pstmt.setInt(5, aluno.getRa());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}		
+	}
+	
 }
