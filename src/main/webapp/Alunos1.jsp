@@ -30,8 +30,8 @@
   	e-mail não informado
   </c:if>
 </td>
-<td><a href="excluir?ra=${aluno.ra}">excluir</a></td>
-<td><a href="alterar?ra=${aluno.ra}">alterar</a></td>
+<td><a href="Controle?ra=${aluno.ra}&op=Excluir">excluir</a></td>
+<td><a href="Controle?ra=${aluno.ra}&op=Alterar">alterar</a></td>
 </tr>
 </c:forEach>
 </table>

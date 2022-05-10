@@ -16,7 +16,8 @@
   </script>
 </head>
 <body>
-<form action="gravar">
+<form action="Controle">
+<input type="hidden" name="op" value="Gravar"/>
 RA:<input type="text" name="ra" value="${aluno.ra}" readonly/><br/>
 nome:<input type="text" name="nome" value="${aluno.nome}"/><br/>
 renda:<input type="text" name="renda" value="${aluno.renda}"/><br/>

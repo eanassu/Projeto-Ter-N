@@ -1,9 +1,6 @@
 package br.com.vemprafam.servlet;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.vemprafam.dao.DaoAluno;
-import br.com.vemprafam.pojo.Aluno;
+import br.com.vemprafam.logica.Logica;
+import br.com.vemprafam.logica.LogicaExcluir;
 
 /**
- * Servlet implementation class ServletGravacao
+ * Servlet implementation class ServletControle
  */
-@WebServlet("/gravar")
-public class ServletGravacao extends HttpServlet {
+@WebServlet("/Controle")
+public class ServletControle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletGravacao() {
+    public ServletControle() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,23 +31,19 @@ public class ServletGravacao extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int ra = Integer.parseInt(request.getParameter("ra"));
-		String nome = request.getParameter("nome");
-		double renda = Double.parseDouble(request.getParameter("renda"));
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-		Date dataNascimento=null;
+		String op = request.getParameter("op");
+		Class<?> classe=null;
+		Logica logica=null;
 		try {
-			dataNascimento = format.
-					parse(request.getParameter("dataNascimento"));
-		} catch (ParseException e) {
+			classe = Class.forName("br.com.vemprafam.logica.Logica"+op);
+			logica = (Logica) classe.newInstance();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String email = request.getParameter("email");
-		Aluno aluno = new Aluno(ra,nome,renda,dataNascimento,email);
-		DaoAluno dao = new DaoAluno();
-		dao.alterarAluno(aluno);
-		RequestDispatcher rd = request.getRequestDispatcher("/Alunos1.jsp");
-		rd.forward(request, response);	}
+		String resposta = logica.executar(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher(resposta);
+		rd.forward(request, response);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
